@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Ask Stentor</title>
+  <meta name="description" content="Ask Stentor">
+  <meta name="author" content="Ask Stentor Team">
+
+</head>
+    
+<style>
+    body {
+    	height: 100%;
+        -webkit-background-size: cover;
+    	-moz-background-size: cover;
+    	-o-background-size: cover;
+    	background-size: cover;
+        background-repeat: no-repeat;
+        background-color: var(--color-bg);
+        color: var(--color-text);
+        font-family: times new roman;
+    }
+    
+    .theme-light {
+        --color-bg: white;
+        --color-text: black;
+        --color-accent: #7da2a9;
+}
+    .theme-dark {
+        --color-bg: black;
+        --color-text: white;
+        --color-accent: #171b23;
+}
+    .flex {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .item {
+        width: 100%;
+    	padding: 1% 2% 1% 2%;
+        margin: 0 2% 0 2%;
+        text-align: center;
+        font-family: helvetica;
+        font-size: 34px;
+        background-color: var(--color-accent);
+    }
+    
+    .desc {
+    	width: 100%;
+        font-size: 23px;
+        margin: 2% auto auto auto;
+	}
+    
+    .desc b {
+   		color: var(--color-text);
+        }
+    
+    #switch {
+        font-family: helvetica;
+        background-color: var(--color-accent);
+        color: var(--color-text);
+        border: 0px;
+        float: right;
+        height: 50px;
+        font-size: 20px;
+        padding: 10px;
+        margin: 10px;
+    }
+    
+    .invite {
+   		width: 200px;
+        font-family: helvetica;
+        background-color: var(--color-accent);
+        color: black;
+        border: 0px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        height: 50px;
+        font-size: 20px;
+    }
+    
+    a {
+    	position: relative;
+  		color: var(--color-text);
+  		text-decoration: none;
+    }
+    
+    a:hover {
+  		color: var(--color-text);
+    }
+    
+    a::before {
+    	content: "";
+  		position: absolute;
+  		width: 100%;
+  		height: 2px;
+  		bottom: 0;
+  		left: 0;
+  		background-color: var(--color-text);
+  		visibility: hidden;
+  		transform: scaleX(0);
+  		transition: all 0.3s ease-in-out 0s;
+  }
+  
+  a:hover::before {
+  	visibility: visible;
+  	transform: scaleX(1);
+  }
+    
+    .block-contain {
+    	margin-left: 15%;
+        padding-top: 2%;
+    
+    }
+    
+    .block-effect {
+  		font-size: calc(8px + 6vw);
+}
+    
+    .block-reveal {
+  --t: calc(var(--td) + var(--d));
+
+  color: transparent;
+  padding: 4px;
+
+  position: relative;
+  overflow: hidden;
+
+  animation: revealBlock 0s var(--t) forwards;
+}
+
+.block-reveal::after {
+  content: '';
+
+  width: 0%;
+  height: 100%;
+  padding-bottom: 4px;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  background: var(--bc);
+  animation: revealingIn var(--td) var(--d) forwards, revealingOut var(--td) var(--t) forwards;
+}
+
+
+/* animations */
+@keyframes revealBlock {
+  100% {
+    color: var(--color-text);
+  }
+}
+
+@keyframes revealingIn {
+
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes revealingOut {
+
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+
+}
+
+</style>
+
+<body>
+    <div class="flex">
+        <p class="item"><a href="/">Invite</a></p>
+        <p class="item"><a href="/">Values</a></p>
+        <p class="item"><a href="/">Team</a></p>
+    </div>
+    
+    <button id="switch" onclick="toggleTheme()">Switch Theme</button>
+    
+    <div class="block-contain">
+    <div class="block-effect" style="--td: 1.2s">
+    <div class="block-reveal" style="--bc: var(--color-accent); --d: .1s">Ask Stentor</div>
+    </div> 
+    </div>
+    
+    <div style="width:50%; margin:auto;">
+    <p class="desc"><b>Hi.</b> Welcome to the <b>Ask Stentor</b> homepage. Ask Stentor is a <b>discord bot</b> that functions as a dictionary for terms related to <b>plurality & multiplicity</b>. If you're interested in inviting it to your server, click the button below:</p>
+    </div>
+    
+    <button class="invite"><a href="/">Invite Ask Stentor</a></button>
+    
+    <script>
+      // function to set a given theme/color-scheme
+        function setTheme(themeName) {
+            localStorage.setItem('theme', themeName);
+            document.documentElement.className = themeName;
+        }
+
+        // function to toggle between light and dark theme
+        function toggleTheme() {
+            if (localStorage.getItem('theme') === 'theme-dark') {
+                setTheme('theme-light');
+            } else {
+                setTheme('theme-dark');
+            }
+        }
+
+        // Immediately invoked function to set the theme on initial load
+        (function () {
+            if (localStorage.getItem('theme') === 'theme-dark') {
+                setTheme('theme-dark');
+            } else {
+                setTheme('theme-light');
+            }
+        })();
+    </script>
+    
+</body>
