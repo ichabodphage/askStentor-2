@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  #title
+    a(href = "/")
+      img(src='/../images/askStentorLogo.svg' width='50%')
+  #descriptionBox
+    p.descriptionBoxText term Search
+    #categoryCointainer
+      form(action='ask')
+        input#searchBox(type='text' name='search' value='search here' onfocus="this.value=''")
+  #descriptionBox
+    #categoryCointainer
+      each term, index in termArray
+        #category
+          a(href = '/ask/term/:'+urlArr[index]).descriptionBoxText #{term.name}
+          p.descriptionBoxText #{term.shortdef}

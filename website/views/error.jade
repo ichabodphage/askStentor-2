@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    #title
+      a(href = "/")
+        img(src='/../images/askStentorLogo.svg' width='50%')
+    #descriptionBox
+      p.descriptionBoxText Error #{error.status}
+      #categoryCointainer
+        #category
+          h1.descriptionBoxText it looks like an error has occured
+          p.descriptionBoxText
+            | please either press the back button button on your webbrowser, or click on the askStentor logo to return to the home page

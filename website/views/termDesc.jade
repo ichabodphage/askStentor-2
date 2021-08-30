@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  #title
+    a(href = "/")
+      img(src='/../images/askStentorLogo.svg' width='50%')
+  #descriptionBox
+    p.descriptionBoxText
+    #categoryCointainer
+      #category
+        h.descriptionBoxText #{term.name}
+        hr
+        p.descriptionBoxText coiner: #{term.coiner}
+        hr
+        p.descriptionBoxText #{term.longdef}
