@@ -4,54 +4,21 @@ var db = require('../DBtools.js');
 var termController = require('../controllers/termController');
 var catagoryController = require('../controllers/catagoryController');
 var similar = require("string-similarity-js");
-function css(request, response) {
-    if (request.url === '/styles.css') {
-      response.writeHead(200, {'Content-type' : 'text/css'});
-      var fileContents = fs.readFileSync('./stylesheets/styles.css', {encoding: 'utf8'});
-      response.write(fileContents);
-    }
-  }  
-function sortByKey(array, key) {
-    return array.sort(function(a, b) {
-        var x = a[key];
-        var y = b[key];
+var urlTools = require('../helpfulMethods/urlTools.js');
 
-        if (typeof x == "string")
-        {
-            x = (""+x).toLowerCase(); 
-        }
-        if (typeof y == "string")
-        {
-            y = (""+y).toLowerCase();
-        }
-
-        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-    });
-} 
 router.get('/', async function(req ,res){
     var query = req.query
     console.log(query.search)
     var termArr;
-    var URLArr =[]
     if(query.search === undefined){
-     termArr =[]
+        termArr =[]
     }else{
-        var SimilarityList =[]
+
         var listToSearch = await db.Term.findAll()
-        for(var i = 0; i< listToSearch.length;i++){
-            SimilarityList.push({closeness: similar.stringSimilarity(query.search,listToSearch[i].name), name: listToSearch[i].name, shortdef: listToSearch[i].shortdef })
-        }
-        SimilarityList = sortByKey(SimilarityList,"closeness")
-        SimilarityList.reverse()
-        SimilarityList.length = 20
-        console.log(SimilarityList)
-        termArr = SimilarityList
+        termArr = urlTools.sortSimilarities(query.search,listToSearch,"name",["shortdef","name"])
+        termArr.length = 20
     }
-    for(var i = 0; i < termArr.length;i++){
-        var URlToPush = termArr[i].name.replace("/","_")
-        URLArr.push(URlToPush)
-    }
-    res.render("search",{termArray: termArr, urlArr: URLArr})
+    res.render("search",{termArray: termArr, urlArr: urlTools.urlBuilder(termArr)})
 })
 
 // term routes
