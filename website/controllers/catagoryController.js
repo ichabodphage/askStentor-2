@@ -1,18 +1,15 @@
 var db = require('../DBtools.js');
+var urlTools = require('../helpfulMethods/urlTools.js');
 
 exports.catagoryListShow = async function(req, res) {
     var catList = await db.Catagory.findAll()
     var termCountArr =[]
-    var URLArr = []
 
     for(var i = 0; i < catList.length;i++){
         var catTerms = await catList[i].getTerms()
         termCountArr.push(catTerms.length)
-        var URlToPush = catList[i].name.replace("/","_")
-
-        URLArr.push(URlToPush)
     }
-    res.render("categories", {catArray: catList, termCountArray: termCountArr, urlArr:URLArr})
+    res.render("categories", {catArray: catList, termCountArray: termCountArr, urlArr: urlTools.urlBuilder(catList)})
     
 };
 
@@ -22,13 +19,9 @@ exports.catagoryDetail = async function(req, res) {
     if(categoryToRead === null){
     res.render("error")
     }else{
-    var URLArr = []
     var terms = await categoryToRead.getTerms()
-    for(var i = 0; i < terms.length;i++){
-        var URlToPush = terms[i].name.replace("/","_")
-        URLArr.push(URlToPush)
-    }
-    res.render("categoryDesc",{cat: categoryToRead,termArray:terms,urlArr:URLArr})
+
+    res.render("categoryDesc",{cat: categoryToRead,termArray:terms,urlArr:urlTools.urlBuilder(terms)})
     }
 };
 
