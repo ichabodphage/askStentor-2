@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  #title
+    a(href = "/")
+      img(src='/../images/askStentorLogo.svg' width='50%')
+  #descriptionBox
+    p.descriptionBoxText welcome #{user}
+    #optionsCointainer
+      #option
+        a.descriptionBoxText(href ="/ask/create") add term
+      #option
+        a.descriptionBoxText(href ="/ask/delete") remove term

@@ -6,38 +6,19 @@ var catagoryController = require('../controllers/catagoryController');
 var similar = require("string-similarity-js");
 var urlTools = require('../helpfulMethods/urlTools.js');
 
-router.get('/', async function(req ,res){
-    var query = req.query
-    console.log(query.search)
-    var termArr;
-    if(query.search === undefined){
-        termArr =[]
-    }else{
-
-        var listToSearch = await db.Term.findAll()
-        termArr = urlTools.sortSimilarities(query.search,listToSearch,"name",["shortdef","name"])
-        termArr.length = 20
-    }
-    res.render("search",{termArray: termArr, urlArr: urlTools.urlBuilder(termArr)})
-})
-
 // term routes
-router.get('/term/create', termController.termCreateGet);
-
-router.post('/term/create', termController.termCreatePost);
-
-router.get('/term/:id/delete', termController.termDeleteGet);
-
-router.post('/term/:id/delete', termController.termDeletePost);
-
-router.get('/term/:id/update', termController.termUpdateGet);
-
-router.post('/term/:id/update', termController.termUpdatePost);
-
-router.get('/term/:id', termController.termDetail);
-
-router.get('/terms', termController.termListShow);
-
+termController.term.forEach(element => {
+    switch(element.httpMethod.toLowerCase()){
+      case "get":
+        router.get(element.path,element.method)
+        break;
+      case "post":
+        router.post(element.path,element.method)
+      default:
+        router.get(element.path,element.method)
+    }
+    
+  });
 // catagory routes
 
 router.get('/catagory/create', catagoryController.catagoryCreateGet);
@@ -55,4 +36,5 @@ router.post('/catagory/:id/update', catagoryController.catagoryUpdatePost);
 router.get('/catagory/:id', catagoryController.catagoryDetail);
 
 router.get('/catagories', catagoryController.catagoryListShow);
+
 module.exports = router;

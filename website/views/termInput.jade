@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  #title
+    a(href = "/")
+      img(src='/../images/askStentorLogo.svg' width='50%')
+  #descriptionBox
+    p.descriptionBoxText add a new term
+    #categoryCointainer
+      #category
+        form(action='create' method='post')
+          p.descriptionBoxTextDetail    term name
+          textarea#loginBox(type='text' name='name' value='' required='')
+          br
+          br
+          p.descriptionBoxTextDetail    shortdef
+          textarea#termBox(type='text' name='shortdef' value='' required='')
+          br
+          br
+          p.descriptionBoxTextDetail    longdef
+          textarea#termBoxlongDef(name='longdef' cols='30' rows='10' required='')
+          br
+          br
+          p.descriptionBoxTextDetail    coiner
+          textarea#loginBox(type='text' name='coiner' value='' required='')
+          br
+          br
+          p.descriptionBoxTextDetail    category
+          select#loginBox(name='category' size='5')
+            option(value='member-type')  member-type 
+            option(value='system-type')  system-type 
+            option(value='practice/ideology')  practice/ideology 
+            option(value='system-origin')  system-origin 
+            option(value='system-object')  system-object 
+            option(value='headmate-action/state')  headmate-action/state 
+          input#submitButton(type='submit' value='Submit')
