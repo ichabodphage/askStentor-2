@@ -1,0 +1,14 @@
+extends layout
+
+block content
+    #title
+      a(href = "/")
+        img(src='/../images/askStentorLogo.svg' width='50%')
+    #descriptionBox
+      p.descriptionBoxText delete a term
+      #categoryCointainer
+        #category
+          form(action='delete' method='post')
+            p.descriptionBoxTextDetail    term name
+            textarea#loginBox(type='text' name='name' value='' required='')
+            input#submitButton(type='submit' value='Submit')

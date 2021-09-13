@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  #title
+    a(href = "/")
+      img(src='/../images/askStentorLogo.svg' width='50%')
+  #descriptionBox
+    p.descriptionBoxText login
+    #categoryCointainer
+      #login
+        form(action='login' method='POST')
+          p.descriptionBoxTextDetail    username
+          input#loginBox(type='text' name='uName' value='username' onfocus="this.value=''" required='')
+          br
+          br
+          p.descriptionBoxTextDetail    password
+          input#loginBox(type='password' name='pWord' value='' onfocus="this.value=''" required='')
+          input#submitButton(type='submit' value='Submit')
+          label
+            input(type='checkbox' checked='checked' name='remember')
+            |  Remember me
+          p.descriptionBoxTextDetail  #{msg}
