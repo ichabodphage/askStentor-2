@@ -7,7 +7,17 @@ block content
   #descriptionBox
     p.descriptionBoxText welcome #{user}
     #optionsCointainer
-      #option
-        a.descriptionBoxText(href ="/ask/create") add term
-      #option
-        a.descriptionBoxText(href ="/ask/delete") remove term
+      if (addTerms)
+        #option
+          a.descriptionBoxText(href ="/ask/create") add term
+        #option
+          a.descriptionBoxText(href ="/ask/delete") remove term
+      if (addCatagories)
+        #option
+          a.descriptionBoxText(href ="/ask/catagoryManager/create") add catagory
+        #option
+          a.descriptionBoxText(href ="/ask/catagoryManager/delete") delete catagory
+      if (addStaff)
+        #option
+          a.descriptionBoxText(href ="/login/create") add new staff member
+

@@ -14,7 +14,7 @@ block content
           br
           br
           p.descriptionBoxTextDetail    shortdef
-          textarea#termBox(type='text' name='shortdef' value='' required='')
+          textarea#loginBox(type='text' name='shortdef' value='' required='')
           br
           br
           p.descriptionBoxTextDetail    longdef
@@ -27,10 +27,7 @@ block content
           br
           p.descriptionBoxTextDetail    category
           select#loginBox(name='category' size='5')
-            option(value='member-type')  member-type 
-            option(value='system-type')  system-type 
-            option(value='practice/ideology')  practice/ideology 
-            option(value='system-origin')  system-origin 
-            option(value='system-object')  system-object 
-            option(value='headmate-action/state')  headmate-action/state 
+            each catagory,index in catagoryArray
+              option(value = catagory.name) #{catagory.name}
+
           input#submitButton(type='submit' value='Submit')

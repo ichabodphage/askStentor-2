@@ -1,10 +1,14 @@
 
 const Sequelize = require('sequelize');
 const UserModel = require('./models/user.js');
+const StaffUserModel = require('./models/staffuser.js');
 const TermModel = require('./models/term.js');
 const CatagoryModel = require('./models/catagory.js');
 const user = require('./models/user.js');
 const term = require('./models/term.js');
+
+const hasher = require("./helpfulMethods/securityTools")
+
 const Oldsequelize = new Sequelize('database', 'username', 'password', {
 	host: 'localhost',
 	dialect: 'sqlite',
@@ -12,16 +16,16 @@ const Oldsequelize = new Sequelize('database', 'username', 'password', {
 	storage: 'newDb.sqlite',
 });
 const oldterms = require('./models/words')(Oldsequelize, Sequelize.DataTypes);
-const sequelize = new Sequelize('your database','your username','your password',{
+const sequelize = new Sequelize('yourdatabase','yourUser','your password',{
   dialect: 'postgres',
   port: 5432,
   replication: {
     read: [
-      { host: 'your server ip adress' },
-      { host: 'your server ip adress' }
+      { host: '' },
+      { host: '' }
       // witness node has no data, only metadata
     ],
-    write: { host: 'your server ip adress' }
+    write: { host: '' }
   },
   pool: {
     max: 10,
@@ -44,13 +48,15 @@ connect();
 const User = UserModel(sequelize, Sequelize);
 const Term = TermModel(sequelize, Sequelize);
 const Catagory = CatagoryModel(sequelize, Sequelize);
+const StaffUser = StaffUserModel(sequelize, Sequelize);
 
 Term.belongsTo(Catagory);
 
 Catagory.hasMany(Term);
-/* just a function that creates associations in the new database using the new term format
+
 async function dbMake(){
   
+   /*
   var oldTerms = await oldterms.findAll();
   var catList = await Catagory.findAll()
   console.log()
@@ -74,13 +80,15 @@ async function dbMake(){
     }
     
   }
+  */
 }
-dbMake()*/
+dbMake()
 
 module.exports = {
   sequelize,
   Sequelize,
   User,
   Term,
-  Catagory
+  Catagory,
+  StaffUser
 }

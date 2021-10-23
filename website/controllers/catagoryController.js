@@ -1,50 +1,71 @@
+const route = require("../appClasses/route.js")
 var db = require('../DBtools.js');
 var urlTools = require('../helpfulMethods/urlTools.js');
+exports.catagory = [
+    //route for displaying the list of catagories
+    new route("/catagories", "get", async function (req, res) {
+        var catList = await db.Catagory.findAll()
+        var termCountArr = []
 
-exports.catagoryListShow = async function(req, res) {
-    var catList = await db.Catagory.findAll()
-    var termCountArr =[]
+        // loop over all catagories and get the number of terms in each catagory
+        for (var i = 0; i < catList.length; i++) {
+            var catTerms = await catList[i].getTerms()
+            termCountArr.push(catTerms.length)
+        }
 
-    for(var i = 0; i < catList.length;i++){
-        var catTerms = await catList[i].getTerms()
-        termCountArr.push(catTerms.length)
-    }
-    res.render("categories", {catArray: catList, termCountArray: termCountArr, urlArr: urlTools.urlBuilder(catList)})
-    
-};
+        res.render("categories", { catArray: catList, termCountArray: termCountArr, urlArr: urlTools.urlBuilder(catList) })
+    }),
 
-exports.catagoryDetail = async function(req, res) {
-    var query = req.params.id.substring(1).replace("_","/")
-    var categoryToRead = await db.Catagory.findOne({where: {name: query}})
-    if(categoryToRead === null){
-    res.render("error")
-    }else{
-    var terms = await categoryToRead.getTerms()
+    //route for retrieving terms witin a selected catagory
+    new route("/catagory/:id", "get", async function (req, res) {
+        // because slashes indicate new routes, catagories with slashes have their slashes replaced with underscores within their queries
+        var query = req.params.id.substring(1).replace("_", "/")
 
-    res.render("categoryDesc",{cat: categoryToRead,termArray:terms,urlArr:urlTools.urlBuilder(terms)})
-    }
-};
+        // render an error if the cataory does not exist, otherwise show the catagory with its terms
+        var categoryToRead = await db.Catagory.findOne({ where: { name: query } })
+        if (categoryToRead === null) {
+            res.render("error")
+        } else {
+            var terms = await categoryToRead.getTerms()
+            res.render("categoryDesc", { cat: categoryToRead, termArray: terms, urlArr: urlTools.urlBuilder(terms) })
+        }
+    }),
 
-exports.catagoryCreateGet = function(req, res) {
-    res.send('NOT IMPLEMENTED: Catagory create GET');
-};
+    // route for creating catagories
+    new route("/catagoryManager/create", "get", async function (req, res) {
+        var sesh = req.session;
+        // standard checking if a valid user is loged in
+        if (sesh.username !== undefined) {
+            res.render("catagoryinput")
+        } else {
+            res.redirect("/")
+        }
+    }),
 
-exports.catagoryCreatePost = function(req, res) {
-    res.send('NOT IMPLEMENTED: Catagory create POST');
-};
+    //route to POST information from the termInput menu
+    new route("/catagoryManager/create", "post", async function (req, res) {
+        // replace any spaces within the catagory name of the post request to eliminate any DB errors
+        req.body.name.replace(" ", "-")
+        var newTerm = await db.Catagory.create(req.body)
+        res.render("catagoryinput")
+    }),
 
-exports.catagoryDeleteGet = function(req, res) {
-    res.send('NOT IMPLEMENTED: Catagory delete GET');
-};
+    // route that shows the catagory deletion menu
+    new route("/catagoryManager/delete", "get", async function (req, res) {
+        var sesh = req.session;
+        // standard checking if a valid user is loged in
+        if (sesh.username !== undefined) {
+            res.render("catagoryDelete")
+        } else {
+            res.redirect("/")
+        }
+    }),
 
-exports.catagoryDeletePost = function(req, res) {
-    res.send('NOT IMPLEMENTED: Catagory delete POST');
-};
-
-exports.catagoryUpdateGet = function(req, res) {
-    res.send('NOT IMPLEMENTED: Catagory update GET');
-};
-
-exports.catagoryUpdatePost = function(req, res) {
-    res.send('NOT IMPLEMENTED: Catagory update POST');
-};
+    // route to DELETE a selected catagory
+    new route("/catagoryManager/delete", "post", async function (req, res) {
+        db.Catagory.findOne({ where: { name: req.body.name } }).then(async (res) => {
+            await res.destroy()
+        })
+        res.render("termDelete")
+    })
+]

@@ -1,0 +1,39 @@
+extends layout
+
+block content
+  #title
+    a(href = "/")
+      img(src='/../images/askStentorLogo.svg' width='50%')
+  #descriptionBox
+    p.descriptionBoxText add a new staff member
+    #categoryCointainer
+      #category
+        form(action='create' method='post')
+          p.descriptionBoxTextDetail    member name
+          textarea#loginBox(type='text' name='username' value='' required='')
+          br
+          br
+          p.descriptionBoxTextDetail    password
+          textarea#loginBox(type='text' name='password' value='' required='')
+          br
+          br
+          p.descriptionBoxTextDetail    discord Id
+          textarea#loginBox(type='text' name='discordId' value='' required='')
+          br
+          br
+          p.descriptionBoxTextDetail    role
+          textarea#loginBox(type='text' name='role' value='' required='')
+          br
+          br
+          p.descriptionBoxTextDetail    staff permissons
+          label.descriptionBoxTextDetail
+            input(type='checkbox' checked= false  name='addTerms')
+            |  can add terms
+            br
+            input(type='checkbox' checked= false name='addCatagories')
+            |  can add catagories
+            br
+            input(type='checkbox' checked= false name='addStaff')
+            |  can add new staff members
+            br
+          input#submitButton(type='submit' value='Submit')
